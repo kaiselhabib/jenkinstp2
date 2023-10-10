@@ -11,7 +11,7 @@ deletDir()
 }
 stage ("Clone repo"){
 steps {
-    sh"git clone https://github.com/MaBouz/exp1-spring.git"
+    sh"git clone https://github.com/kaiselhabib/jenkinstp2.git"
 }
 }
 stage ("Generate backend image"){
