@@ -16,11 +16,10 @@ pipeline {
         }
         stage ("Generate backend image") {
               steps {
-                   dir("jenkinsTp2"){
                       sh "mvn clean install"
                       sh "docker build -t docexp1-spring ."
                   }                
-              }
+              
           }
         stage ("Run docker compose") {
             steps {
