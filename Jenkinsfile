@@ -23,9 +23,8 @@ pipeline {
           }
         stage ("Run docker compose") {
             steps {
-                 dir("jenkinsTp2"){
                     sh " docker compose up -d"
-                }                
+                            
             }
         }
     }
