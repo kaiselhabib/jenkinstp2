@@ -5,7 +5,7 @@ pipeline {
  stage('Pull Repository') {
             steps {
                 // Pull the repository source code from Git
-                git branch: 'master', url: 'https://github.com/kaiselhabib/jenkinstp2.git'
+                git branch: 'main', url: 'https://github.com/kaiselhabib/jenkinstp2.git'
             }
         }
     
