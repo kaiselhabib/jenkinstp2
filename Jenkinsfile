@@ -1,33 +1,34 @@
-pipline {
-agent any
-tools {
-maven 'maven'
-}
-stage {
-stage ("Clean up"){
-steps {
-deletDir()
-}
-}
-stage ("Clone repo"){
-steps {
-    sh"git clone https://github.com/kaiselhabib/jenkinstp2.git"
-}
-}
-stage ("Generate backend image"){
-steps{
-dir ("exp1-spring"){
-sh"mvn clean install"
-sh"docker build -t docexp1-spring."
-}
-}
-}
-stage ("Run docker compose"){
-steps {
-dir("exp1-spring"){
-sh "docker compose up -d"
-}
-}
-}
-}
+pipeline {
+    agent any
+  
+    stages {
+ stage('Pull Repository') {
+            steps {
+                // Pull the repository source code from Git
+                git branch: 'master', url: 'https://github.com/kaiselhabib/jenkinstp2.git'
+            }
+        }
+    
+        stage('Build Spring') {
+            
+            steps {
+                sh "mvn clean install"
+
+            }
+        }
+        stage('Build docker image') {
+            steps {
+             script{
+                sh 'docker build -t firstspring .'
+             }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sh 'docker run -d -p 8084:8084 firstspring'
+                }
+            }
+        }
+    }
 }
