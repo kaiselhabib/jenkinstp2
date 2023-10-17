@@ -1,33 +1,32 @@
 pipeline {
-    agent any
-  
+    agent any 
+    tools { 
+        maven 'maven'
+    }
     stages {
- stage('Pull Repository') {
+        stage ("Clean up"){
             steps {
-                // Pull the repository source code from Git
-                git branch: 'main', url: 'https://github.com/kaiselhabib/jenkinstp2.git'
+                deleteDir()
             }
         }
-    
-        stage('Build Spring') {
-            
+        stage ("Clone repo"){
             steps {
-                sh "mvn clean install"
-
+                sh "git clone https://github.com/kaiselhabib/jenkinstp2.git"
             }
         }
-        stage('Build docker image') {
+        stage ("Generate backend image") {
+              steps {
+                   dir("jenkinsTp2"){
+                      sh "mvn clean install"
+                      sh "docker build -t docexp1-spring ."
+                  }                
+              }
+          }
+        stage ("Run docker compose") {
             steps {
-             script{
-                sh 'docker build -t firstspring .'
-             }
-            }
-        }
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    sh 'docker run -d -p 8084:8084 firstspring'
-                }
+                 dir("jenkinsTp2"){
+                    sh " docker compose up -d"
+                }                
             }
         }
     }
